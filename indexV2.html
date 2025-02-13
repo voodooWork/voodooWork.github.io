@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="containerForCenterBlock">
+        <div id="tableHolder"></div>
+        <div>
+            <button style="width: fit-content; float: right;" onclick="addEmptyData()">+</button>
+        </div>
+        <button onclick="WriteToJsonFile()">Сохранить</button>
+        <input id="fileInput" type="file" onchange="readFile(this)">
+        <div id="inputTableHolder"></div>
+        <div>
+            <button style="width: fit-content; float: right;" onclick="addEmptyInputData()">+</button>
+        </div>
+        <button onclick="writeSetings()">Сохранить новый элемент</button>
+    </div>
+
+
+    <style>
+        .containerForCenterBlock {
+            display: grid;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .table {
+            width: 500px;
+            border: 1px solid black;
+            margin-top: 20px;
+        }
+
+        .stroka {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding: 1%;
+            text-align: center;
+        }
+
+        output {
+            display: grid;
+            height: 4vh;
+            border: 1px solid black;
+            padding: 5px;
+            overflow-x: auto;
+            background: white;
+            word-break: break-all;
+        }
+
+        .elem_center {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            align-self: center;
+            justify-self: center;
+        }
+
+        input[type="text"] {
+            box-sizing: border-box;
+        }
+    </style>
+
+    <script>
+        let optionsArray = { pistolOptions: [1, 2, 3, 4], fuelOptions: [92, 95, 100, "ДТ"] }// Обьект с набором параметрами
+        let inputDataArray = [{ id: 1, pistolNumber: 1, fuelNumber: 92 }, { id: 2, pistolNumber: 2, fuelNumber: 95 }, { id: 3, pistolNumber: 3, fuelNumber: 100 }, { id: 4, pistolNumber: 4, fuelNumber: "ДТ" }];//Обьект с установленными параметрами
+
+        function createDropDownList(id, setValue, options) {//Выпадающий список
+            let newSTR = document.createElement("select");
+            newSTR.id = id;
+            options.forEach(element => {
+                let list = document.createElement("option");
+                list.textContent = element;
+                newSTR.appendChild(list);
+            });
+            newSTR.value = setValue;
+            return newSTR;
+        }
+
+        function createInputList(id, setValue) {//Редактируемый список
+            let newSTR = document.createElement("input");
+            newSTR.id = id;
+            newSTR.type = 'text';
+            newSTR.value = setValue;
+            return newSTR;
+        }
+
+        function createNewTableRow(element, masOptions) {
+            let newElement = document.createElement("div");
+            newElement.className = "stroka";
+            newElement.appendChild(createDropDownList("pistolId_" + element.id, element.pistolNumber, masOptions.pistolOptions)).className = "elem_center";
+            newElement.appendChild(createDropDownList("fuelId_" + element.id, element.fuelNumber, masOptions.fuelOptions)).className = "elem_center";
+            return newElement;
+        }
+        function createNewInputTableRow(element) {
+            let newElement = document.createElement("div");
+            newElement.className = "stroka";
+            newElement.appendChild(createInputList("inputPistolId_" + element.id, element.pistolNumber)).className = "elem_center";
+            newElement.appendChild(createInputList("inputFuelId_" + element.id, element.fuelNumber)).className = "elem_center";
+            return newElement;
+        }
+
+        function addEmptyData() {
+            let emptyData = { id: (inputDataArray.length + 1), pistolNumber: "", fuelNumber: "" };
+            inputDataArray.push(emptyData);
+            document.getElementById("tableData").appendChild(createNewTableRow(emptyData, optionsArray));
+        }
+
+        function addEmptyInputData() {
+            let emptyData = { id: (optionsArray.pistolOptions.length + 1), pistolNumber: "", fuelNumber: "" };
+            document.getElementById("inputTableData").appendChild(createNewInputTableRow(emptyData));
+        }
+
+        function tableCreator(masData, masOptions) {//Таблица
+            document.getElementById("tableHolder").innerHTML = "";
+            let table = document.createElement("div");
+            table.id = "tableBlock";
+            table.className = "table";
+            let row = document.createElement("div");
+            row.appendChild(document.createElement("output")).textContent = "Колонка";
+            row.appendChild(document.createElement("output")).textContent = "Топливо";
+            table.appendChild(row).className = "stroka";;
+            let newRow = document.createElement("div");
+            newRow.id = "tableData";
+            table.appendChild(newRow);
+            masData.forEach(element => {
+                newRow.appendChild(createNewTableRow(element, masOptions));
+            });
+            document.getElementById("tableHolder").appendChild(table);
+        }
+
+        function inputTableCreator(masData) {//Таблица
+            document.getElementById("inputTableHolder").innerHTML = "";
+            let table = document.createElement("div");
+            table.id = "tableBlockInput";
+            table.className = "table";
+            let row = document.createElement("div");
+            row.appendChild(document.createElement("output")).textContent = "Колонка";
+            row.appendChild(document.createElement("output")).textContent = "Топливо";
+            table.appendChild(row).className = "stroka";;
+            let newRow = document.createElement("div");
+            newRow.id = "inputTableData";
+            table.appendChild(newRow);
+            masData.forEach(element => {
+                newRow.appendChild(createNewInputTableRow(element));
+            });
+            document.getElementById("inputTableHolder").appendChild(table);
+        }
+
+        tableCreator(inputDataArray, optionsArray);
+        inputTableCreator(inputDataArray);
+        //tableCreator(loadJsonFromLocalMemory(), optionsArray);
+
+        function getSelectDataTable(selectTable) {//Подготовка обьекта с выбранными параметрами для отправки
+            let masData = [];
+            let temp = [];
+            selectTable.querySelectorAll("div").forEach((element, index) => {
+                temp.push(index);
+                element.querySelectorAll("select").forEach(data => {
+                    temp.push(data.options[document.getElementById(data.id).selectedIndex].textContent);
+                });
+                masData.push(objectCreate(temp));
+                temp = [];
+            });
+            return masData;
+        }
+
+        function getInputDataTable(selectTable) {//Подготовка обьекта с настройками для отправки
+            let masData = [];
+            let temp = [];
+            selectTable.querySelectorAll("div").forEach((element, index) => {
+                element.querySelectorAll("input").forEach(data => {
+                    console.log("data " + data.value)
+                    temp.push(data.value);
+                });
+                masData.push(temp);
+                temp = [];
+            });
+            return masData;
+        }
+
+        function writeSetings() {
+            optionsArray.pistolOptions = [];
+            optionsArray.fuelOptions = [];
+            getInputDataTable(document.getElementById("inputTableData")).forEach(element => {
+                optionsArray.pistolOptions.push(element[0]);
+                optionsArray.fuelOptions.push(element[1]);
+                console.log("element " + element);
+            });
+            console.log(" optionsArray " + JSON.stringify(optionsArray));
+        }
+
+        function objectCreate(mas) {//Обьект json
+            return {
+                id: mas[0],
+                pistolNumber: mas[1],
+                fuelNumber: mas[2]
+            }
+        }
+
+        function objectToText(data) {//Обьект txt
+            let createString = "";
+            data.forEach(element => {
+                let newString = "";
+                for (let key in element) {
+                    newString += `${key},${element[key]},`;
+                }
+                createString += newString.slice(0, -1) + "|";
+            });
+
+            return createString.slice(0, -1);
+        }
+
+        function WriteToTXTFile() {//Запись в txt
+            let dataJson = objectToText(getSelectDataTable(document.getElementById("tableData")));
+            let data = new Blob([dataJson], { type: "application/json" });
+            let link = document.createElement('a');
+            link.href = URL.createObjectURL(data);
+            link.download = 'mySave.txt';
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }
+
+        function WriteToJsonFile() {//Запись в json
+            let dataJson = JSON.stringify(getSelectDataTable(document.getElementById("tableData")));
+            let data = new Blob([dataJson], { type: "application/json" });
+            let link = document.createElement('a');
+            link.href = URL.createObjectURL(data);
+            link.download = 'mySave.json';
+            link.click();
+            URL.revokeObjectURL(link.href);
+            saveJsonToLocalMemory(getSelectDataTable(document.getElementById("tableData")));
+        }
+
+        function saveJsonToLocalMemory(tempMas) {//Сохранение в память браузера
+            localStorage.setItem('mySave', JSON.stringify(tempMas));
+        }
+
+        function loadJsonFromLocalMemory() {//Выгрузка из памяти браузера
+            return JSON.parse(localStorage.getItem('mySave'));
+        }
+
+        //console.log(loadJsonFromLocalMemory());
+
+        function readFile(input) {//Чтение файла
+            let file = input.files[0];
+            let reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = function () {
+                if (file.name.split(".")[1] == "json") {
+                    console.log(reader.result);
+                    inputDataArray = JSON.parse(reader.result);
+                    tableCreator(inputDataArray, optionsArray);
+                } else if (file.name.split(".")[1] == "txt") {
+                    tableCreator(textToArray(reader.result), optionsArray);
+                }
+            };
+            reader.onerror = function () {
+                console.log(reader.error);
+            };
+        }
+
+        function textToArray(text) {
+            let tempMas = text.split("|");
+            let tempObj = "";
+            let mas = [];
+            tempMas.forEach((element, index) => {
+                tempObj = element.split(",");
+                let createNewObject = {};
+                for (let i = 0; i < tempObj.length; i++) {
+                    createNewObject[tempObj[i]] = tempObj[(i + 1)];
+                }
+                mas.push(createNewObject);
+            });
+            return mas;
+        }
+    </script>
+</body>
+
+</html>
