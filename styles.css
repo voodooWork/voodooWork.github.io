@@ -348,7 +348,7 @@ html.light-theme .hero-slideshow {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 15px;
+    /*margin-top: 15px;*/
     gap: 10px;
 }
 
@@ -988,10 +988,10 @@ html.light-theme .news-card:hover {
     }
 }
 
-@media (max-width: 360px) {
+/*@media (max-width: 360px) {
     .card-buttons {
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
     }
-}
+}*/
