@@ -280,6 +280,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentIndex = 0;
         let timer = null;
 
+        // Переменные для отслеживания координат свайпа
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const minSwipeDistance = 50; // Минимальная длина свайпа в пикселях для срабатывания
+
         function getVisibleCount() {
             if (window.innerWidth <= 600) return 1;
             if (window.innerWidth <= 1024) return 2;
@@ -293,9 +298,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentIndex < 0) currentIndex = maxIndex;
             if (currentIndex > maxIndex) currentIndex = 0;
 
-            const cardWidth = cards[0].getBoundingClientRect().width;
+            /*const cardWidth = cards[0].getBoundingClientRect().width;
             const gap = 30;
-            track.style.transform = `translateX(-${currentIndex * (cardWidth + gap)}px)`;
+            track.style.transform = `translateX(-${currentIndex * (cardWidth + gap)}px)`;*/
+            const cardWidth = cards[0] ? cards[0].getBoundingClientRect().width : 300;
+            track.style.transform = `translateX(-${currentIndex * (cardWidth + 30)}px)`;
         }
 
         function start() {
@@ -308,7 +315,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         track.addEventListener('mouseenter', stop);
         track.addEventListener('mouseleave', start);
-        track.addEventListener('touchstart', stop);
+
+        /*track.addEventListener('touchstart', stop);
         track.addEventListener('touchend', start);
 
         window.addEventListener('resize', () => {
@@ -317,6 +325,37 @@ document.addEventListener('DOMContentLoaded', () => {
             move();
         });
 
+        start();*/
+        // === ЛОГИКА СВАЙПОВ ДЛЯ СМАРТФОНОВ ===
+
+        // 1. Фиксируем точку касания пальца
+        track.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            stop(); // Останавливаем автопрокрутку, пока пользователь взаимодействует
+        }, { passive: true });
+
+        // 2. Фиксируем точку, где палец оторвался от экрана
+        track.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+
+            // Вычисляем расстояние и направление свайпа
+            const swipeDistance = touchEndX - touchStartX;
+
+            if (Math.abs(swipeDistance) >= minSwipeDistance) {
+                if (swipeDistance < 0) {
+                    // Свайп влево -> листаем ВПЕРЕД
+                    currentIndex++;
+                } else {
+                    // Свайп вправо -> листаем НАЗАД
+                    currentIndex--;
+                }
+                move();
+            }
+
+            start(); // Возвращаем автопрокрутку после окончания жеста
+        }, { passive: true });
+
+        window.addEventListener('resize', move);
         start();
     }
 
