@@ -299,7 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function start() {
-            timer = setInterval(() => { currentIndex++; move(); }, 5000); // Интервал 5 секунд
+            timer = setInterval(() => { currentIndex++; move(); }, 15000); // Интервал 15 секунд
         }
         function stop() { clearInterval(timer); }
 
