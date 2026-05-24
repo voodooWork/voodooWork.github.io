@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // --- ЛОГИКА ДЛЯ MAILTO ---
             // Вставить почту вместо 'your-email@example.com'
             const myEmail = 'your-email@example.com';
-            const subject = encodeURIComponent('Заявка с сайта RoboTech');
+            const subject = encodeURIComponent('Заявка с сайта КолоБот');
             // Формируем красивый текст письма с переносами строк (%0D%0A)
             const bodyText = `Имя отправителя: ${nameInput.value.trim()}\n` +
                 `Email для связи: ${emailInput.value.trim()}\n\n` +
