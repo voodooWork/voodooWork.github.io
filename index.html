@@ -1,285 +1,213 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>КолоБот</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="theme_script.js"></script>
+    <script defer src="settings/devices.js"></script>
+    <script defer src="settings/video.js"></script>
+    <script defer src="settings/newsList.js"></script>
+    <script defer src="main_script.js"></script>
 </head>
 
 <body>
-    <div class="containerForCenterBlock">
-        <div id="tableHolder"></div>
-        <div>
-            <button style="width: fit-content; float: right;" onclick="addEmptyData()">+</button>
+    <header class="header">
+        <a href="#main" title="Лаборатория робототехники" class="logo">Коло<span>Бот</span></a>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню">
+            <span></span><span></span><span></span>
+        </button>
+
+        <nav class="nav" id="navMenu">
+            <a href="#main" class="nav-link active">Главная</a>
+            <a href="#devices" class="nav-link">Устройства</a>
+            <a href="#video-gallery" class="nav-link">Видео</a>
+            <a href="#news" class="nav-link">Новости</a>
+            <a href="#about" class="nav-link">О нас</a>
+            <a href="#contacts" class="nav-link">Контакты</a>
+
+            <!-- Соцсети внутри мобильного меню (для смартфонов) -->
+            <div class="header-socials mobile-only">
+                <a href="https://vk.com" target="_blank" rel="noopener" title="Наш GitHub">VK</a>
+                <a href="https://ok.ru" target="_blank" rel="noopener" title="Наш Telegram">OK</a>
+                <a href="https://rutube.ru" target="_blank" rel="noopener" title="Наш Telegram">RT</a>
+            </div>
+        </nav>
+
+        <!-- Соцсети в шапке (для ПК) -->
+        <div class="header-socials desktop-only">
+            <a href="https://vk.com" target="_blank" rel="noopener" title="Наш GitHub">VK</a>
+            <a href="https://ok.ru" target="_blank" rel="noopener" title="Наш Telegram">OK</a>
+            <a href="https://rutube.ru" target="_blank" rel="noopener" title="Наш Telegram">RT</a>
         </div>
-        <button onclick="WriteToJsonFile()">Сохранить</button>
-        <input id="fileInput" type="file" onchange="readFile(this)">
-        <div id="inputTableHolder"></div>
-        <div>
-            <button style="width: fit-content; float: right;" onclick="addEmptyInputData()">+</button>
+
+        <button class="btn-toggle-theme" id="themeToggle" aria-label="Сменить тему">🌙</button>
+    </header>
+
+    <main>
+        <!-- Главный экран со слайд-шоу -->
+        <section id="main" class="hero">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <h1>Создаём <span id="typing-text"></span></h1>
+                    <p>Проектирование и программирование роботизированных систем нового поколения.</p>
+                    <a href="#devices" class="btn-primary">Наши проекты</a>
+                </div>
+                <div class="hero-slideshow" id="heroSlideshow">
+                    <!-- Слайд 1 (активный по умолчанию) -->
+                    <div class="slide active" style="background-image: url('image/head-img_1.jpg');"></div>
+                    <!-- Слайд 2 -->
+                    <div class="slide" style="background-color: #374151;"></div>
+                    <!-- Слайд 3 -->
+                    <div class="slide" style="background-image: url('image/head-img_1.jpg');"></div>
+                    <!-- Индикаторы (точки) -->
+                    <div class="slideshow-dots" id="slideshowDots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Раздел: Устройства (с каруселью) -->
+        <section id="devices" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Наши проекты</h2>
+                <!-- Кнопки управления каруселью -->
+                <div class="carousel-controls">
+                    <button class="carousel-btn btn-prev" id="prevBtn" aria-label="Назад">&#10094;</button>
+                    <button class="carousel-btn btn-next" id="nextBtn" aria-label="Вперед">&#10095;</button>
+                </div>
+            </div>
+            <div class="carousel-viewport">
+                <!-- вставит карточки из JS -->
+                <div class="carousel-track" id="carouselTrack"></div>
+            </div>
+        </section>
+
+        <!-- Раздел: Видеогалерея (с каруселью) -->
+        <section id="video-gallery" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Роботы в действии</h2>
+                <!-- Кнопки управления каруселью видео -->
+                <div class="carousel-controls">
+                    <button class="carousel-btn" id="videoPrevBtn" aria-label="Назад">&#10094;</button>
+                    <button class="carousel-btn" id="videoNextBtn" aria-label="Вперед">&#10095;</button>
+                </div>
+            </div>
+            <div class="carousel-viewport">
+                <div class="carousel-track" id="videoTrack">
+                </div>
+            </div>
+        </section>
+
+        <!-- Раздел: Новости (с каруселью) -->
+        <section id="news" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Новости лаборатории</h2>
+                <div class="carousel-controls">
+                    <button class="carousel-btn" id="newsPrevBtn" aria-label="Назад">&#10094;</button>
+                    <button class="carousel-btn" id="newsNextBtn" aria-label="Вперед">&#10095;</button>
+                </div>
+            </div>
+
+            <div class="carousel-viewport">
+                <div class="carousel-track" id="newsTrack">
+                </div>
+            </div>
+        </section>
+
+        <!-- Раздел: О нас -->
+        <section id="about" class="section bg-alt">
+            <div class="about-container">
+                <h2 class="section-title">О лаборатории</h2>
+                <p>Мы — независимая команда креаторов, инженеров, робототехников и программистов. Объединяем передовую
+                    механику с программными алгоритмами, чтобы учиться и решать сложные задачи.</p>
+            </div>
+        </section>
+
+        <!-- Раздел: Контакты -->
+        <section id="contacts" class="section">
+            <h2 class="section-title">Связаться с нами</h2>
+            <div class="contacts-container">
+                <form class="contact-form" id="contactForm">
+                    <!-- Поле 1: Имя -->
+                    <div class="form-group">
+                        <input type="text" name="name" id="userName" placeholder="Ваше имя" required
+                            autocomplete="name">
+                        <span class="error-message" id="nameError"></span>
+                    </div>
+                    <!-- Поле 2: Email -->
+                    <div class="form-group">
+                        <input type="email" name="email" id="userEmail" placeholder="Email" required
+                            autocomplete="email">
+                        <span class="error-message" id="emailError"></span>
+                    </div>
+                    <!-- Поле 3: Текст сообщения -->
+                    <div class="form-group">
+                        <textarea name="message" id="userMessage" placeholder="Ваше сообщение" rows="5"
+                            required></textarea>
+                        <span class="error-message" id="messageError"></span>
+                    </div>
+                    <button type="submit" class="btn-primary">Отправить заявку</button>
+                </form>
+                <!-- Правая колонка: Социальные сети и инфо -->
+                <div class="contacts-info">
+                    <h3>Мы в социальных сетях</h3>
+                    <p class="contacts-text">Следите за нашими новыми разработками, тестированием роботов и открытыми
+                        воркшопами на популярных платформах:</p>
+                    <div class="social-buttons">
+                        <!-- Кнопка VK -->
+                        <a href="https://vk.com" target="_blank" rel="noopener" class="social-btn vk-btn">
+                            <span class="social-icon">VK</span>
+                            <span class="social-name">ВКонтакте</span>
+                        </a>
+                        <!-- Кнопка Одноклассники -->
+                        <a href="https://ok.ru" target="_blank" rel="noopener" class="social-btn ok-btn">
+                            <span class="social-icon">OK</span>
+                            <span class="social-name">Одноклассники</span>
+                        </a>
+                        <!-- Кнопка Rutube -->
+                        <a href="https://rutube.ru" target="_blank" rel="noopener" class="social-btn rutube-btn">
+                            <span class="social-icon">RT</span>
+                            <span class="social-name">Rutube</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Подвал -->
+    <footer class="footer">
+        <p>&copy; 2026 КолоБот. Все права защищены. Все совпадения случайны.</p>
+    </footer>
+    <!-- Модальное окно для детальной информации -->
+    <div id="modalOverlay" class="modal-overlay" aria-hidden="true">
+        <div class="modal-window">
+            <!-- Кнопка закрытия (крестик) -->
+            <button class="modal-close" id="modalClose" aria-label="Закрыть окно">&times;</button>
+            <!-- Место под контент, который заполнит JS -->
+            <div class="modal-image" id="modalImage"></div>
+            <!-- кнопка-ссылка и скачать в модальном окне -->
+            <div style="display: flex;">
+                <a href="#" target="_blank" rel="noopener" class="btn-primary" id="modalLink"
+                    style="display: none; width: 40vmin; margin: 1%; text-align: center;">Перейти к заказу</a>
+                <a href="#" target="_blank" rel="noopener" class="btn-primary" id="downLoadLink"
+                    style="display: none; width: 40vmin; margin: 1%; text-align: center;">Скачать прошивку</a>
+            </div>
+            <!-- Контейнер для видео -->
+            <div class="modal-video-container" id="modalVideoContainer">
+                <iframe id="modalVideo" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="modal-content">
+                <h3 id="modalTitle">Название устройства</h3>
+                <p id="modalDescription">Описание устройства появится здесь...</p>
+            </div>
         </div>
-        <button onclick="writeSetings()">Сохранить новый элемент</button>
     </div>
-
-
-    <style>
-        .containerForCenterBlock {
-            display: grid;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .table {
-            width: 500px;
-            border: 1px solid black;
-            margin-top: 20px;
-        }
-
-        .stroka {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            padding: 1%;
-            text-align: center;
-        }
-
-        output {
-            display: grid;
-            height: 4vh;
-            border: 1px solid black;
-            padding: 5px;
-            overflow-x: auto;
-            background: white;
-            word-break: break-all;
-        }
-
-        .elem_center {
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            align-self: center;
-            justify-self: center;
-        }
-
-        input[type="text"] {
-            box-sizing: border-box;
-        }
-    </style>
-
-    <script>
-        let optionsArray = { pistolOptions: [1, 2, 3, 4], fuelOptions: [92, 95, 100, "ДТ"] }// Обьект с набором параметрами
-        let inputDataArray = [{ id: 1, pistolNumber: 1, fuelNumber: 92 }, { id: 2, pistolNumber: 2, fuelNumber: 95 }, { id: 3, pistolNumber: 3, fuelNumber: 100 }, { id: 4, pistolNumber: 4, fuelNumber: "ДТ" }];//Обьект с установленными параметрами
-
-        function createDropDownList(id, setValue, options) {//Выпадающий список
-            let newSTR = document.createElement("select");
-            newSTR.id = id;
-            options.forEach(element => {
-                let list = document.createElement("option");
-                list.textContent = element;
-                newSTR.appendChild(list);
-            });
-            newSTR.value = setValue;
-            return newSTR;
-        }
-
-        function createInputList(id, setValue) {//Редактируемый список
-            let newSTR = document.createElement("input");
-            newSTR.id = id;
-            newSTR.type = 'text';
-            newSTR.value = setValue;
-            return newSTR;
-        }
-
-        function createNewTableRow(element, masOptions) {
-            let newElement = document.createElement("div");
-            newElement.className = "stroka";
-            newElement.appendChild(createDropDownList("pistolId_" + element.id, element.pistolNumber, masOptions.pistolOptions)).className = "elem_center";
-            newElement.appendChild(createDropDownList("fuelId_" + element.id, element.fuelNumber, masOptions.fuelOptions)).className = "elem_center";
-            return newElement;
-        }
-        function createNewInputTableRow(element) {
-            let newElement = document.createElement("div");
-            newElement.className = "stroka";
-            newElement.appendChild(createInputList("inputPistolId_" + element.id, element.pistolNumber)).className = "elem_center";
-            newElement.appendChild(createInputList("inputFuelId_" + element.id, element.fuelNumber)).className = "elem_center";
-            return newElement;
-        }
-
-        function addEmptyData() {
-            let emptyData = { id: (inputDataArray.length + 1), pistolNumber: "", fuelNumber: "" };
-            inputDataArray.push(emptyData);
-            document.getElementById("tableData").appendChild(createNewTableRow(emptyData, optionsArray));
-        }
-
-        function addEmptyInputData() {
-            let emptyData = { id: (optionsArray.pistolOptions.length + 1), pistolNumber: "", fuelNumber: "" };
-            document.getElementById("inputTableData").appendChild(createNewInputTableRow(emptyData));
-        }
-
-        function tableCreator(masData, masOptions) {//Таблица
-            document.getElementById("tableHolder").innerHTML = "";
-            let table = document.createElement("div");
-            table.id = "tableBlock";
-            table.className = "table";
-            let row = document.createElement("div");
-            row.appendChild(document.createElement("output")).textContent = "Колонка";
-            row.appendChild(document.createElement("output")).textContent = "Топливо";
-            table.appendChild(row).className = "stroka";;
-            let newRow = document.createElement("div");
-            newRow.id = "tableData";
-            table.appendChild(newRow);
-            masData.forEach(element => {
-                newRow.appendChild(createNewTableRow(element, masOptions));
-            });
-            document.getElementById("tableHolder").appendChild(table);
-        }
-
-        function inputTableCreator(masData) {//Таблица
-            document.getElementById("inputTableHolder").innerHTML = "";
-            let table = document.createElement("div");
-            table.id = "tableBlockInput";
-            table.className = "table";
-            let row = document.createElement("div");
-            row.appendChild(document.createElement("output")).textContent = "Колонка";
-            row.appendChild(document.createElement("output")).textContent = "Топливо";
-            table.appendChild(row).className = "stroka";;
-            let newRow = document.createElement("div");
-            newRow.id = "inputTableData";
-            table.appendChild(newRow);
-            masData.forEach(element => {
-                newRow.appendChild(createNewInputTableRow(element));
-            });
-            document.getElementById("inputTableHolder").appendChild(table);
-        }
-
-        tableCreator(inputDataArray, optionsArray);
-        inputTableCreator(inputDataArray);
-        //tableCreator(loadJsonFromLocalMemory(), optionsArray);
-
-        function getSelectDataTable(selectTable) {//Подготовка обьекта с выбранными параметрами для отправки
-            let masData = [];
-            let temp = [];
-            selectTable.querySelectorAll("div").forEach((element, index) => {
-                temp.push(index);
-                element.querySelectorAll("select").forEach(data => {
-                    temp.push(data.options[document.getElementById(data.id).selectedIndex].textContent);
-                });
-                masData.push(objectCreate(temp));
-                temp = [];
-            });
-            return masData;
-        }
-
-        function getInputDataTable(selectTable) {//Подготовка обьекта с настройками для отправки
-            let masData = [];
-            let temp = [];
-            selectTable.querySelectorAll("div").forEach((element, index) => {
-                element.querySelectorAll("input").forEach(data => {
-                    console.log("data " + data.value)
-                    temp.push(data.value);
-                });
-                masData.push(temp);
-                temp = [];
-            });
-            return masData;
-        }
-
-        function writeSetings() {
-            optionsArray.pistolOptions = [];
-            optionsArray.fuelOptions = [];
-            getInputDataTable(document.getElementById("inputTableData")).forEach(element => {
-                optionsArray.pistolOptions.push(element[0]);
-                optionsArray.fuelOptions.push(element[1]);
-                console.log("element " + element);
-            });
-            console.log(" optionsArray " + JSON.stringify(optionsArray));
-        }
-
-        function objectCreate(mas) {//Обьект json
-            return {
-                id: mas[0],
-                pistolNumber: mas[1],
-                fuelNumber: mas[2]
-            }
-        }
-
-        function objectToText(data) {//Обьект txt
-            let createString = "";
-            data.forEach(element => {
-                let newString = "";
-                for (let key in element) {
-                    newString += `${key},${element[key]},`;
-                }
-                createString += newString.slice(0, -1) + "|";
-            });
-
-            return createString.slice(0, -1);
-        }
-
-        function WriteToTXTFile() {//Запись в txt
-            let dataJson = objectToText(getSelectDataTable(document.getElementById("tableData")));
-            let data = new Blob([dataJson], { type: "application/json" });
-            let link = document.createElement('a');
-            link.href = URL.createObjectURL(data);
-            link.download = 'mySave.txt';
-            link.click();
-            URL.revokeObjectURL(link.href);
-        }
-
-        function WriteToJsonFile() {//Запись в json
-            let dataJson = JSON.stringify(getSelectDataTable(document.getElementById("tableData")));
-            let data = new Blob([dataJson], { type: "application/json" });
-            let link = document.createElement('a');
-            link.href = URL.createObjectURL(data);
-            link.download = 'mySave.json';
-            link.click();
-            URL.revokeObjectURL(link.href);
-            saveJsonToLocalMemory(getSelectDataTable(document.getElementById("tableData")));
-        }
-
-        function saveJsonToLocalMemory(tempMas) {//Сохранение в память браузера
-            localStorage.setItem('mySave', JSON.stringify(tempMas));
-        }
-
-        function loadJsonFromLocalMemory() {//Выгрузка из памяти браузера
-            return JSON.parse(localStorage.getItem('mySave'));
-        }
-
-        //console.log(loadJsonFromLocalMemory());
-
-        function readFile(input) {//Чтение файла
-            let file = input.files[0];
-            let reader = new FileReader();
-            reader.readAsText(file);
-            reader.onload = function () {
-                if (file.name.split(".")[1] == "json") {
-                    console.log(reader.result);
-                    inputDataArray = JSON.parse(reader.result);
-                    tableCreator(inputDataArray, optionsArray);
-                } else if (file.name.split(".")[1] == "txt") {
-                    tableCreator(textToArray(reader.result), optionsArray);
-                }
-            };
-            reader.onerror = function () {
-                console.log(reader.error);
-            };
-        }
-
-        function textToArray(text) {
-            let tempMas = text.split("|");
-            let tempObj = "";
-            let mas = [];
-            tempMas.forEach((element, index) => {
-                tempObj = element.split(",");
-                let createNewObject = {};
-                for (let i = 0; i < tempObj.length; i++) {
-                    createNewObject[tempObj[i]] = tempObj[(i + 1)];
-                }
-                mas.push(createNewObject);
-            });
-            return mas;
-        }
-    </script>
 </body>
 
 </html>
