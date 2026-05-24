@@ -17,8 +17,8 @@ const VIDEO_DATA =[
     },
    {
         "id": 3,
-        "title": "Чужой робот",
-        "description": `Демонстрация видео, встроенная из Rutube.`,
+        "title": "КолоБот",
+        "description": `КолоБот в действии.`,
         "previewImg": "",
         "selfVideoUrl": "video/VIDEO_1.mp4",
         "sideVideoUrl": "",

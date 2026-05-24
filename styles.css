@@ -208,8 +208,8 @@ html.light-theme .hero-slideshow {
     background: transparent;
     color: var(--accent);
     border: 2px solid var(--accent);
-    padding: 12px 30px;
-    font-size: 14px;
+    padding: 1vmin 3vmin;
+    font-size: 2vmin;
     font-weight: 600;
     text-decoration: none;
     text-transform: uppercase;
@@ -330,7 +330,7 @@ html.light-theme .hero-slideshow {
 }
 
 .card-content {
-    padding: 25px;
+    padding: 3vmin;
 }
 
 .card-content h3 {
@@ -349,17 +349,17 @@ html.light-theme .hero-slideshow {
     justify-content: space-between;
     align-items: center;
     /*margin-top: 15px;*/
-    gap: 10px;
+    gap: 1vmin;
 }
 
 /* Ссылка в карточках */
 .card-link,
 .card-link-load {
     display: inline-block;
-    margin-top: 15px;
+    margin-top: 1vmin;
     color: var(--accent);
     text-decoration: none;
-    font-size: 14px;
+    font-size: 2vmin;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -524,7 +524,7 @@ html.light-theme .hero-slideshow {
     background-color: var(--bg-card);
     border: 1px solid rgba(255, 255, 255, 0.1);
     width: 100%;
-    max-width: 600px;
+    max-width: 80%;
     max-height: calc(100vh - 40px);
     border-radius: 12px;
     overflow: hidden;
@@ -569,19 +569,19 @@ html.light-theme .hero-slideshow {
 
 /* Текстовый блок модалки со встроенным скроллом */
 .modal-content {
-    padding: 30px;
+    padding: 3vmin;
     overflow-y: auto;
     flex-grow: 1;
 }
 
 .modal-content h3 {
-    font-size: 24px;
-    margin-bottom: 15px;
+    font-size: 5vmin;
+    margin-bottom: 1vmin;
 }
 
 .modal-content p {
     color: var(--text-muted);
-    font-size: 16px;
+    font-size: 3vmin;
     line-height: 1.6;
 }
 
