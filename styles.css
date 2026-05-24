@@ -229,7 +229,7 @@ html.light-theme .hero-slideshow {
 }
 
 .btn-modal {
-    font-size: 14px;
+    font-size: 10px;
 }
 
 /* Секции и сетка (Grid) */
@@ -534,7 +534,7 @@ html.light-theme .hero-slideshow {
     background-color: var(--bg-card);
     border: 1px solid rgba(255, 255, 255, 0.1);
     width: 100%;
-    max-width: 80%;
+    max-width: 700px;
     max-height: calc(100vh - 40px);
     border-radius: 12px;
     overflow: hidden;
