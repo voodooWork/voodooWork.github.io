@@ -28,7 +28,7 @@ body {
 
 html.light-theme {
     --bg-dark: #ffe5ac;
-    --bg-card: rgba(255, 136, 0, 0.4);
+    --bg-card: rgb(255, 195, 126);
     --bg-alt: rgba(230, 116, 21, 0.4);
     --text-main: #1d1d1d;
     --text-muted: #000000;
