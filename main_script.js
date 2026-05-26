@@ -114,9 +114,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const mailtoUrl = `mailto:${myEmail}?subject=${subject}&body=${body}`;
             // Инструктируем браузер открыть эту ссылку
             window.location.href = mailtoUrl;
+
+            const textToCopy = `Кому: ${myEmail}\n\nТекст письма:\n${bodyText}`;
+            const userAgreed = confirm(
+                "Если ничего не произошло, нажмите «ОК», чтобы скопировать адрес и текст письма.\n"
+            );
+            if (userAgreed) {
+                // Копируем всё в буфер обмена
+                navigator.clipboard.writeText(textToCopy)
+                    .then(() => alert("Данные успешно скопированы! Откройте вашу почту вручную и вставьте текст (Ctrl+V)."))
+                    .catch(() => alert(`Не удалось скопировать автоматически. Скопируйте вручную адрес: ${myEmail}`));
+            } else {
+                // Если пользователь нажал "Отмена", просто очищаем форму
+                form.reset();
+                [nameInput, emailInput, messageInput].forEach(input => input.classList.remove('valid'));
+            }
+
+
             // Очищаем форму и убираем зеленую подсветку успеха
-            form.reset();
-            [nameInput, emailInput, messageInput].forEach(input => input.classList.remove('valid'));
+            /*form.reset();
+            [nameInput, emailInput, messageInput].forEach(input => input.classList.remove('valid'));*/
         });
     }
 
