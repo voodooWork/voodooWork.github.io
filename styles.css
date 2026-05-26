@@ -26,6 +26,10 @@ body {
     line-height: 1.6;
 }
 
+button {
+  font: inherit; /* наследует шрифт от родителя */
+}
+
 html.light-theme {
     --bg-dark: #ffe5ac;
     --bg-card: rgb(255, 195, 126);
