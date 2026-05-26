@@ -7,6 +7,7 @@
     <title>КолоБот</title>
     <link rel="stylesheet" href="styles.css">
     <script src="theme_script.js"></script>
+    <script defer src="settings/socialLinks.js"></script>
     <script defer src="settings/devices.js"></script>
     <script defer src="settings/video.js"></script>
     <script defer src="settings/newsList.js"></script>
@@ -16,7 +17,6 @@
 <body>
     <header class="header">
         <a href="#main" title="Лаборатория робототехники" class="logo">Коло<span>Бот</span></a>
-
         <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню">
             <span></span><span></span><span></span>
         </button>
@@ -31,17 +31,17 @@
 
             <!-- Соцсети внутри мобильного меню (для смартфонов) -->
             <div class="header-socials mobile-only">
-                <a href="https://vk.com" target="_blank" rel="noopener" title="Наш GitHub">VK</a>
-                <a href="https://ok.ru" target="_blank" rel="noopener" title="Наш Telegram">OK</a>
-                <a href="https://rutube.ru" target="_blank" rel="noopener" title="Наш Telegram">RT</a>
+                <a data-link="vkLink" href="#" target="_blank" rel="noopener" title="Наш GitHub">VK</a>
+                <a data-link="okLink" href="#" target="_blank" rel="noopener" title="Наш Telegram">OK</a>
+                <a data-link="rutubeLink" target="_blank" rel="noopener" title="Наш Telegram">RT</a>
             </div>
         </nav>
 
         <!-- Соцсети в шапке (для ПК) -->
         <div class="header-socials desktop-only">
-            <a href="https://vk.com" target="_blank" rel="noopener" title="Наш GitHub">VK</a>
-            <a href="https://ok.ru" target="_blank" rel="noopener" title="Наш Telegram">OK</a>
-            <a href="https://rutube.ru" target="_blank" rel="noopener" title="Наш Telegram">RT</a>
+            <a data-link="vkLink" href="#" target="_blank" rel="noopener" title="Наш GitHub">VK</a>
+            <a data-link="okLink" href="#" target="_blank" rel="noopener" title="Наш Telegram">OK</a>
+            <a data-link="rutubeLink" target="_blank" rel="noopener" title="Наш Telegram">RT</a>
         </div>
 
         <button class="btn-toggle-theme" id="themeToggle" aria-label="Сменить тему">🌙</button>
@@ -132,6 +132,7 @@
             <h2 class="section-title">Связаться с нами</h2>
             <div class="contacts-container">
                 <form class="contact-form" id="contactForm">
+                    <h3>Наша почта: <span>post@post.post</span></h3>
                     <!-- Поле 1: Имя -->
                     <div class="form-group">
                         <input type="text" name="name" id="userName" placeholder="Ваше имя" required
@@ -140,7 +141,7 @@
                     </div>
                     <!-- Поле 2: Email -->
                     <div class="form-group">
-                        <input type="email" name="email" id="userEmail" placeholder="Email" required
+                        <input type="email" name="email" id="userEmail" placeholder="Email для обратной связи" required
                             autocomplete="email">
                         <span class="error-message" id="emailError"></span>
                     </div>
@@ -159,17 +160,17 @@
                         воркшопами на популярных платформах:</p>
                     <div class="social-buttons">
                         <!-- Кнопка VK -->
-                        <a href="https://vk.com" target="_blank" rel="noopener" class="social-btn vk-btn">
+                        <a data-link="vkLink" href="#" target="_blank" rel="noopener" class="social-btn vk-btn">
                             <span class="social-icon">VK</span>
                             <span class="social-name">ВКонтакте</span>
                         </a>
                         <!-- Кнопка Одноклассники -->
-                        <a href="https://ok.ru" target="_blank" rel="noopener" class="social-btn ok-btn">
+                        <a data-link="okLink" href="#" target="_blank" rel="noopener" class="social-btn ok-btn">
                             <span class="social-icon">OK</span>
                             <span class="social-name">Одноклассники</span>
                         </a>
                         <!-- Кнопка Rutube -->
-                        <a href="https://rutube.ru" target="_blank" rel="noopener" class="social-btn rutube-btn">
+                        <a data-link="rutubeLink" target="_blank" rel="noopener" class="social-btn rutube-btn">
                             <span class="social-icon">RT</span>
                             <span class="social-name">Rutube</span>
                         </a>

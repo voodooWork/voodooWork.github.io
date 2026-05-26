@@ -47,9 +47,10 @@ html.light-theme .modal-window {
 
 /* Стили для светлой темы */
 html.light-theme .hero-slideshow {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-    border-color: rgba(0, 0, 0, 0.05);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    /*border-color: rgba(0, 0, 0, 0.05);*/
 }
+
 
 /* Стили для мобильного бургер-меню */
 .menu-toggle {
@@ -181,7 +182,7 @@ html.light-theme .hero-slideshow {
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 40px rgba(87, 86, 86, 0.4);
 }
 
 .hero-slideshow .slide {
@@ -388,7 +389,7 @@ html.light-theme .hero-slideshow {
     max-width: 550px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    /*gap: 20px;*/
 }
 
 .contact-form input,
@@ -422,6 +423,17 @@ html.light-theme .hero-slideshow {
 .contact-form textarea.valid {
     border-color: #2afe00 !important;
     box-shadow: 0 0 10px rgba(0, 242, 254, 0.1) !important;
+}
+
+.contact-form h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+.contact-form h3 span {
+    color: var(--accent);
 }
 
 /* Обёртка для полей (чтобы подсказки вставали ровно под ними) */

@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Вставляем карточки в карусель
         trackDevices.innerHTML = htmlContent;
         // Сразу же запускаем карусель устройств (старый вызов)
-        initCarousel('carouselTrack', 'prevBtn', 'nextBtn');
+        initCarousel('carouselTrack', 'prevBtn', 'nextBtn', false);
     }
 
     // Логика автоматической генерации карточек видео из JS-файла
@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </article>`;
         });
         trackVideo.innerHTML = htmlContent;
-        initCarousel('videoTrack', 'videoPrevBtn', 'videoNextBtn');
+        initCarousel('videoTrack', 'videoPrevBtn', 'videoNextBtn', true);
     }
 
     // Логика автоматической генерации карточек новости из JS-файла
@@ -264,13 +264,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     </article>`;
         });
         trackNews.innerHTML = htmlContent;
-        initCarousel('newsTrack', 'newsPrevBtn', 'newsNextBtn');
+        initCarousel('newsTrack', 'newsPrevBtn', 'newsNextBtn', false);
     }
 
     //!!! Важно все что ниже должно идти после создания всех элементов на экране 
 
     // === УНИВЕРСАЛЬНАЯ ФУНКЦИЯ ДЛЯ КАРУСЕЛЕЙ ===
-    function initCarousel(trackId, prevId, nextId) {
+    function initCarousel(trackId, prevId, nextId, isAutoScroll) {
         const track = document.getElementById(trackId);
         const prevBtn = document.getElementById(prevId);
         const nextBtn = document.getElementById(nextId);
@@ -306,7 +306,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function start() {
-            timer = setInterval(() => { currentIndex++; move(); }, 15000); // Интервал 15 секунд
+            if (isAutoScroll) {
+                timer = setInterval(() => { currentIndex++; move(); }, 15000); // Интервал 15 секунд
+            }
         }
         function stop() { clearInterval(timer); }
 
@@ -373,7 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const downLoadLink = document.getElementById('downLoadLink');
     // Переменная для хранения элемента, который открыл модалку
     let lastFocusedElement = null;
-    function openModal(title, description, bgElement = null, videoUrl = null, orderUrl = null, downloadUrl = null) {
+    function openModal(title, description, bgElement = null, videoUrl = null, orderUrl = null, downloadUrl = null, downloadDesc = null) {
         // Запоминаем, какая карточка была нажата, чтобы вернуть туда фокус
         lastFocusedElement = document.activeElement;
         modalTitle.textContent = title;
@@ -400,6 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (downloadUrl && downLoadLink) {
             downLoadLink.style.display = 'inline-block';
             downLoadLink.href = downloadUrl;
+            if (downloadDesc) downLoadLink.download = downloadDesc;
         }
         // Переводим атрибут доступности в состояние "видимо"
         modalOverlay.setAttribute('aria-hidden', 'false');
@@ -436,7 +439,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const orderUrl = orderLinkElement ? orderLinkElement.getAttribute('href') : null;
             const downLoadLinkElement = card.querySelector('.card-link-load');
             const downloadUrl = downLoadLinkElement ? downLoadLinkElement.getAttribute('href') : null;
-            openModal(title, desc, img, null, orderUrl, downloadUrl);
+            const downloadDesc = downLoadLinkElement ? downLoadLinkElement.getAttribute('download') : null;
+            openModal(title, desc, img, null, orderUrl, downloadUrl, downloadDesc);
         });
         // Позволяет открывать окна по нажатию Enter на клавиатуре
         card.addEventListener('keydown', (e) => {
@@ -490,5 +494,15 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', (e) => {
             e.stopPropagation(); // Стопаем всплытие клика к родительской карточке
         });
+    });
+
+    //10. Задать все ссылки
+    const linksData = SOCIAL_DATA[0];
+    document.querySelectorAll('[data-link]').forEach(anchor => {
+        const key = anchor.getAttribute('data-link');
+        // Проверяем, есть ли такой ключ в настройках и не пустой ли он
+        if (linksData && linksData[key]) {
+            anchor.href = linksData[key];
+        }
     });
 });
