@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             // --- ЛОГИКА ДЛЯ MAILTO ---
             // Вставить почту вместо 'your-email@example.com'
-            const myEmail = 'your-email@example.com';
+            const myEmail = SOCIAL_DATA[0].emailLink; /*'your-email@example.com'*/;
             const subject = encodeURIComponent('Заявка с сайта КолоБот');
             // Формируем красивый текст письма с переносами строк (%0D%0A)
             const bodyText = `Имя отправителя: ${nameInput.value.trim()}\n` +
@@ -496,13 +496,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    //10. Задать все ссылки
+    //10. Задать ссылки для соц.сетей
     const linksData = SOCIAL_DATA[0];
     document.querySelectorAll('[data-link]').forEach(anchor => {
         const key = anchor.getAttribute('data-link');
         // Проверяем, есть ли такой ключ в настройках и не пустой ли он
         if (linksData && linksData[key]) {
-            anchor.href = linksData[key];
+            if (key == "emailLink") {
+                anchor.innerHTML = linksData[key];
+            } else {
+                anchor.href = linksData[key];
+            }
         }
     });
 });
