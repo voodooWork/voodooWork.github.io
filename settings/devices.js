@@ -14,7 +14,7 @@ const DEVICES_DATA =[
         Развивающая робот-игрушка с дистанционным управлением. Развивающая робот-игрушка с.
         Развивающая робот-игрушка с дистанционным управлением. Развивающая робот-игрушка с.`,
         "image": "image/head-img_1.jpg",
-        "orderUrl": "https://vk.com",
+        "orderUrl": "https://vk.com/kolobot_rf",
         "downloadUrl": "downloads/testLoad.zip",
         "downloadFileName": "TestLoad_1.zip"
     },
@@ -23,7 +23,7 @@ const DEVICES_DATA =[
         "title": "Робот линеходец",
         "description": `Развивающая робот-игрушка, двигается по линии.`,
         "image": "image/head-img_1.jpg",
-        "orderUrl": "https://vk.com",
+        "orderUrl": "https://vk.com/kolobot_rf",
         "downloadUrl": "downloads/testLoad.zip",
         "downloadFileName": "TestLoad_2.zip"
     },
@@ -32,7 +32,7 @@ const DEVICES_DATA =[
         "title": `Джойстик управления`,
         "description": "Джойстик для управления роботом.",
         "image": "image/head-img_1.jpg",
-        "orderUrl": "https://vk.com",
+        "orderUrl": "https://vk.com/kolobot_rf",
         "downloadUrl": "downloads/testLoad.zip",
         "downloadFileName": "TestLoad_3.zip"
     },
@@ -41,7 +41,7 @@ const DEVICES_DATA =[
         "title": `Набор для моделирования №1`,
         "description": "Набор для моделирования.",
         "image": "image/head-img_1.jpg",
-        "orderUrl": "https://vk.com",
+        "orderUrl": "https://vk.com/kolobot_rf",
         "downloadUrl": "downloads/testLoad.zip",
         "downloadFileName": "TestLoad_4.zip"
     },
@@ -50,7 +50,7 @@ const DEVICES_DATA =[
         "title": `Набор для моделирования №2`,
         "description": "Набор для моделирования.",
         "image": "image/head-img_1.jpg",
-        "orderUrl": "https://vk.com",
+        "orderUrl": "https://vk.com/kolobot_rf",
         "downloadUrl": "downloads/testLoad.zip",
         "downloadFileName": "TestLoad_5.zip"
     },
@@ -59,7 +59,7 @@ const DEVICES_DATA =[
         "title": `Запасные части`,
         "description": "Запасные части",
         "image": "image/head-img_1.jpg",
-        "orderUrl": "https://vk.com",
+        "orderUrl": "https://vk.com/kolobot_rf",
         "downloadUrl": "downloads/testLoad.zip",
         "downloadFileName": "TestLoad_6.zip"
     }
