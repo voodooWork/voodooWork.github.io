@@ -98,7 +98,8 @@ html.light-theme .hero-slideshow {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 5%;
+    /*padding: 20px 5%;*/
+    padding: 6px 3%;
     background-color: rgba(10, 12, 16, 0.85);
     backdrop-filter: blur(10px);
     z-index: 1000;
@@ -106,6 +107,8 @@ html.light-theme .hero-slideshow {
 }
 
 .logo {
+    display: grid;
+    width: 10vmin;
     font-size: 24px;
     font-weight: 800;
     letter-spacing: 1px;
@@ -708,15 +711,15 @@ html.light-theme .hero-slideshow {
 .card-content p,
 .news-card p {
     display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
+    /*-webkit-line-clamp: 2;
+    line-clamp: 2;*/
     /* Показывать строго 2 строки текста */
-    -webkit-box-orient: vertical;
+    /*-webkit-box-orient: vertical;*/
     overflow: hidden;
     /* Скрывать всё, что не поместилось */
     text-overflow: ellipsis;
     /* Добавляет троеточие в конце (...) */
-    height: calc(1.6em * 2);
+    height: calc(1.6em * 3);
     /* Фиксированная высота: interline (1.6) * 2 строки */
 }
 

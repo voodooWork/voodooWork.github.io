@@ -19,123 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 2. Обработка отправки формы через MAILTO с Живой Валидацией
-    const form = document.getElementById('contactForm');
-    if (form) {
-        const nameInput = document.getElementById('userName');
-        const emailInput = document.getElementById('userEmail');
-        const messageInput = document.getElementById('userMessage');
-        const nameError = document.getElementById('nameError');
-        const emailError = document.getElementById('emailError');
-        const messageError = document.getElementById('messageError');
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        function showError(input, errorSpan, text) {
-            input.classList.remove('valid');
-            input.classList.add('invalid');
-            errorSpan.textContent = text;
-            errorSpan.classList.add('visible');
-        }
-
-        function showSuccess(input, errorSpan) {
-            input.classList.remove('invalid');
-            input.classList.add('valid');
-            errorSpan.textContent = '';
-            errorSpan.classList.remove('visible');
-        }
-
-        function validateName() {
-            const val = nameInput.value.trim();
-            if (val.length === 0) {
-                showError(nameInput, nameError, 'Пожалуйста, введите ваше имя.');
-                return false;
-            } else if (val.length < 2) {
-                showError(nameInput, nameError, 'Имя должно содержать не менее 2 символов.');
-                return false;
-            } else if (/[0-9]/.test(val)) {
-                showError(nameInput, nameError, 'Имя не должно содержать цифры.');
-                return false;
-            }
-            showSuccess(nameInput, nameError);
-            return true;
-        }
-
-        function validateEmail() {
-            const val = emailInput.value.trim();
-            if (val.length === 0) {
-                showError(emailInput, emailError, 'Пожалуйста, введите ваш Email.');
-                return false;
-            } else if (!emailRegex.test(val)) {
-                showError(emailInput, emailError, 'Введите корректный адрес (например: robot@tech.ru).');
-                return false;
-            }
-            showSuccess(emailInput, emailError);
-            return true;
-        }
-
-        function validateMessage() {
-            const val = messageInput.value.trim();
-            if (val.length === 0) {
-                showError(messageInput, messageError, 'Напишите текст вашего обращения.');
-                return false;
-            } else if (val.length < 10) {
-                showError(messageInput, messageError, 'Сообщение слишком короткое (минимум 10 символов).');
-                return false;
-            }
-            showSuccess(messageInput, messageError);
-            return true;
-        }
-
-        // «Живая» проверка при вводе
-        nameInput.addEventListener('input', validateName);
-        emailInput.addEventListener('input', validateEmail);
-        messageInput.addEventListener('input', validateMessage);
-
-        // Обработка отправки
-        form.addEventListener('submit', (e) => {
-            e.preventDefault(); // Блокируем стандартную отправку
-            const isNameValid = validateName();
-            const isEmailValid = validateEmail();
-            const isMessageValid = validateMessage();
-            // Если есть ошибки — прерываем выполнение
-            if (!isNameValid || !isEmailValid || !isMessageValid) {
-                return;
-            }
-            // --- ЛОГИКА ДЛЯ MAILTO ---
-            // Вставить почту вместо 'your-email@example.com'
-            const myEmail = SOCIAL_DATA[0].emailLink; /*'your-email@example.com'*/;
-            const subject = encodeURIComponent('Заявка с сайта КолоБот');
-            // Формируем красивый текст письма с переносами строк (%0D%0A)
-            const bodyText = `Имя отправителя: ${nameInput.value.trim()}\n` +
-                `Email для связи: ${emailInput.value.trim()}\n\n` +
-                `Сообщение:\n${messageInput.value.trim()}`;
-            const body = encodeURIComponent(bodyText);
-            // Собираем финальную mailto-ссылку
-            const mailtoUrl = `mailto:${myEmail}?subject=${subject}&body=${body}`;
-            // Инструктируем браузер открыть эту ссылку
-            window.location.href = mailtoUrl;
-
-            const textToCopy = `Кому: ${myEmail}\n\nТекст письма:\n${bodyText}`;
-            const userAgreed = confirm(
-                "Если ничего не произошло, нажмите «ОК», чтобы скопировать адрес и текст письма.\n"
-            );
-            if (userAgreed) {
-                // Копируем всё в буфер обмена
-                navigator.clipboard.writeText(textToCopy)
-                    .then(() => alert("Данные успешно скопированы! Откройте вашу почту вручную и вставьте текст (Ctrl+V)."))
-                    .catch(() => alert(`Не удалось скопировать автоматически. Скопируйте вручную адрес: ${myEmail}`));
-            } else {
-                // Если пользователь нажал "Отмена", просто очищаем форму
-                form.reset();
-                [nameInput, emailInput, messageInput].forEach(input => input.classList.remove('valid'));
-            }
-
-
-            // Очищаем форму и убираем зеленую подсветку успеха
-            /*form.reset();
-            [nameInput, emailInput, messageInput].forEach(input => input.classList.remove('valid'));*/
-        });
-    }
+    // 2. Обработка отправки формы через MAILTO УДАЛЕНО
 
     // 3. Переключение темы ручное управление
     const themeToggle = document.getElementById('themeToggle');
@@ -215,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (trackDevices && typeof DEVICES_DATA !== 'undefined') {
         let htmlContent = '';
         DEVICES_DATA.forEach(robot => {
-            const orderBtn = robot.orderUrl ? `<a href="${robot.orderUrl}" target="_blank" rel="noopener" class="card-link">Перейти к заказу</a>` : '';
+            const orderBtn = robot.orderUrl ? `<a href="${robot.orderUrl}" target="_blank" rel="noopener" class="card-link">Узнать подробнее</a>` : '';
             const downloadBtn = robot.downloadUrl ? `<a href="${robot.downloadUrl}" download="${robot.downloadFileName}" class="card-link-load">Скачать прошивку</a>` : '';
 
             htmlContent += `
